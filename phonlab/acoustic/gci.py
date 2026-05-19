@@ -11,6 +11,9 @@ def get_mbs(x,fs, f0median, width = 1.4):
     width is the size of the window in number of glottal pulses.  Drugman and Dutoit used 1.75,
     1.4 seems to be better for higher pitched voices without harming performance with lower 
     voices.
+
+    TO DO: What about using F0 trajectory rather than a single median?  This would mean 
+    having a time series of windows w with length determined frame by frame.   
     '''
     
     # calculate the MeanBased Signal - smooth with a window that is 1.4 glottal pulses wide
@@ -225,7 +228,7 @@ The figure here shows the derived waves used in finding GCIs.  In the top trace,
     # ==========================
     # 7. Shimmer
     shimmer = 20*np.log10(soe[1:]/soe[:-1]) # amplitude difference between adjacent pulses.
-    shimmer = np.pad(shimmer,1,0),mode='edge')  # repeat the first one
+    shimmer = np.pad(shimmer,(1,0),mode='edge')  # repeat the first one
     
     df = DataFrame({'sec': gci, 'f0':f0, 'jitter':jitter, 'soe':soe, 'shimmer':shimmer})
     
